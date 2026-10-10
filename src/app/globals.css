@@ -1,0 +1,357 @@
+@import "tailwindcss";
+
+/* Class-free dark variant keyed to the attribute set by the theme script. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Core palette — light */
+  --bg: #f7f8f4;
+  --surface: #ffffff;
+  --primary: #789780;
+  --primary-dark: #355b48;
+  --text: #202820;
+  --muted: #747d75;
+  --border: #e5e9e3;
+
+  /* Supporting tones */
+  --cream: #f1eee4;
+  --mint: #dcebdd;
+  --on-primary: #f7f8f4;
+  --highlight: #ffffff;
+
+  color-scheme: light;
+}
+
+/* Dark palette. Applied by the theme script; the media query is the
+   no-JavaScript fallback so the system preference still wins. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121713;
+    --surface: #1b231d;
+    --primary: #a8c7a9;
+    --primary-dark: #d2e5d1;
+    --text: #edf2ec;
+    --muted: #a1ada2;
+    --border: #303a32;
+
+    --cream: #1f241c;
+    --mint: #243128;
+    --on-primary: #121713;
+    --highlight: #e6f0e5;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #121713;
+  --surface: #1b231d;
+  --primary: #a8c7a9;
+  --primary-dark: #d2e5d1;
+  --text: #edf2ec;
+  --muted: #a1ada2;
+  --border: #303a32;
+
+  --cream: #1f241c;
+  --mint: #243128;
+  --on-primary: #121713;
+  --highlight: #e6f0e5;
+
+  color-scheme: dark;
+}
+
+:root {
+  /* Derived tokens — computed from the palette so both themes stay in sync. */
+
+  /* Secondary copy. The raw muted tone sits just under 4.5:1 on the light
+     background, so small text uses this slightly deeper mix to stay AA. */
+  --text-secondary: color-mix(in oklab, var(--muted) 76%, var(--text));
+  --primary-soft: color-mix(in oklab, var(--primary) 16%, var(--surface));
+  --surface-raised: color-mix(in oklab, var(--surface) 92%, var(--primary));
+  --border-strong: color-mix(in oklab, var(--border) 70%, var(--primary));
+  --header-bg: color-mix(in oklab, var(--bg) 82%, transparent);
+
+  /* Sculpture shading */
+  --slab-top: color-mix(in oklab, var(--surface) 70%, var(--mint));
+  --slab-side: color-mix(in oklab, var(--primary) 55%, var(--bg));
+  --slab-edge: color-mix(in oklab, var(--primary-dark) 40%, var(--primary));
+
+  --shadow-color: color-mix(in oklab, var(--primary-dark) 18%, transparent);
+  --shadow-soft: 0 1px 2px var(--shadow-color), 0 12px 32px -18px var(--shadow-color);
+  --shadow-lift: 0 2px 4px var(--shadow-color), 0 28px 56px -28px var(--shadow-color);
+
+  --radius-card: 1.75rem;
+  --radius-inner: 1.125rem;
+  --header-h: 4.5rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tailwind theme bridge                                               */
+/* ------------------------------------------------------------------ */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-soft: var(--primary-soft);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-subtle: var(--text-secondary);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-cream: var(--cream);
+  --color-mint: var(--mint);
+  --color-on-primary: var(--on-primary);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: var(--radius-card);
+  --radius-inner: var(--radius-inner);
+
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+}
+
+@theme {
+  /* Fluid type scale */
+  --text-display: clamp(2.6rem, 1.15rem + 6.2vw, 7rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.045em;
+
+  --text-title: clamp(2rem, 1.2rem + 3.4vw, 4.25rem);
+  --text-title--line-height: 1;
+  --text-title--letter-spacing: -0.035em;
+
+  --text-heading: clamp(1.35rem, 1.05rem + 1.1vw, 2rem);
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.02em;
+
+  --text-lede: clamp(1.075rem, 0.98rem + 0.45vw, 1.35rem);
+  --text-lede--line-height: 1.55;
+
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+
+  --breakpoint-xs: 26rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--primary) 35%, transparent);
+    color: var(--text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary-dark);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
+
+  /* Smooth colour hand-off while the theme toggle is pressed. The class
+     is only present for the duration of the switch. */
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow,
+      outline-color;
+    transition-duration: 420ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Utilities                                                           */
+/* ------------------------------------------------------------------ */
+
+@utility page-container {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+@utility section-space {
+  padding-block: clamp(4.5rem, 3rem + 7vw, 9.5rem);
+}
+
+@utility card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+@utility grain {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--primary-dark) 9%, transparent) 0.6px,
+    transparent 0.6px
+  );
+  background-size: 6px 6px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero sculpture (CSS 3D)                                             */
+/* ------------------------------------------------------------------ */
+
+.sculpture {
+  perspective: 1400px;
+  perspective-origin: 50% 30%;
+}
+
+.sculpture-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.sculpture-stage * {
+  transform-style: preserve-3d;
+}
+
+/* A slab is a stack of thin layers; the stack reads as an extruded,
+   rounded plinth without any real geometry. */
+.slab {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.slab-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--slab-radius, 34%);
+  background: var(--slab-side);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--slab-edge) 30%, transparent);
+}
+
+.slab-layer[data-top] {
+  background:
+    radial-gradient(120% 90% at 30% 20%, color-mix(in oklab, var(--highlight) 45%, transparent), transparent 60%),
+    var(--slab-top);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--slab-edge) 22%, transparent),
+    inset 0 -14px 30px -18px color-mix(in oklab, var(--primary-dark) 35%, transparent);
+}
+
+.slab-shadow {
+  position: absolute;
+  inset: -6%;
+  border-radius: 40%;
+  background: radial-gradient(closest-side, var(--shadow-color), transparent);
+  filter: blur(18px);
+}
+
+.orb {
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 32% 28%, color-mix(in oklab, var(--highlight) 85%, transparent) 0 7%, transparent 32%),
+    radial-gradient(circle at 40% 35%, var(--primary) 0%, color-mix(in oklab, var(--primary-dark) 78%, var(--primary)) 62%, color-mix(in oklab, var(--primary-dark) 90%, var(--bg)) 100%);
+  box-shadow: inset -12px -16px 32px color-mix(in oklab, var(--primary-dark) 45%, transparent);
+}
+
+.blade {
+  border-radius: 0 100% 0 100%;
+  background: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--mint) 80%, var(--surface)) 0%,
+    var(--primary) 70%,
+    color-mix(in oklab, var(--primary-dark) 70%, var(--primary)) 100%
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary-dark) 18%, transparent);
+}
+
+.ring {
+  border-radius: 9999px;
+  border: 10px solid color-mix(in oklab, var(--primary-dark) 55%, var(--primary));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--surface) 40%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--primary-dark) 20%, transparent);
+}
+
+.pebble {
+  border-radius: 58% 42% 55% 45% / 52% 48% 52% 48%;
+  background: radial-gradient(circle at 35% 30%, var(--slab-top), var(--slab-side) 80%);
+  box-shadow: var(--shadow-soft);
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+.float-slow {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+.float-slower {
+  animation: float-y 9s ease-in-out -2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-slow,
+  .float-slower {
+    animation: none;
+  }
+}
+
+/* Project cover compositions use the same tokens, so they re-theme too. */
+.cover-surface {
+  background:
+    radial-gradient(90% 80% at 85% 10%, color-mix(in oklab, var(--mint) 85%, transparent), transparent 70%),
+    linear-gradient(160deg, var(--cream), color-mix(in oklab, var(--primary-soft) 80%, var(--bg)));
+}
