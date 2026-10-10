@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <!-- PLACEHOLDER illustration. Replace with a real portrait (e.g. portrait.jpg) and update the src in about-section.tsx. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#E4EEE2"/>
+      <stop offset="1" stop-color="#C9DBC9"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.7" cy="0.22" r="0.5">
+      <stop offset="0" stop-color="#F7F8F4" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#F7F8F4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4E7660"/>
+      <stop offset="1" stop-color="#2E4F3E"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C9A486"/>
+      <stop offset="1" stop-color="#A9846A"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#sun)"/>
+  <path d="M-40 760 C 120 640, 260 700, 420 640 S 760 520, 860 600 L 860 1040 L -40 1040 Z" fill="#B3CBB4"/>
+  <ellipse cx="610" cy="250" rx="92" ry="92" fill="#789780" opacity="0.35"/>
+  <path d="M120 300 C 120 210, 190 160, 260 170 C 230 240, 190 290, 120 300 Z" fill="#789780" opacity="0.45"/>
+  <!-- shoulders -->
+  <path d="M170 1000 C 170 820, 270 720, 400 712 C 530 720, 630 820, 630 1000 Z" fill="url(#coat)"/>
+  <path d="M360 712 L 400 800 L 440 712 Z" fill="#F1EEE4" opacity="0.9"/>
+  <!-- neck -->
+  <path d="M362 610 L 438 610 L 444 726 C 420 744, 380 744, 356 726 Z" fill="#A9846A"/>
+  <!-- head -->
+  <ellipse cx="400" cy="508" rx="118" ry="140" fill="url(#skin)"/>
+  <!-- hair -->
+  <path d="M282 500 C 268 380, 340 330, 412 334 C 492 338, 536 392, 520 488 C 500 430, 456 410, 404 418 C 350 426, 312 452, 282 500 Z" fill="#202820"/>
+  <!-- glasses -->
+  <g fill="none" stroke="#202820" stroke-width="7" stroke-linecap="round">
+    <rect x="322" y="494" width="64" height="48" rx="20"/>
+    <rect x="414" y="494" width="64" height="48" rx="20"/>
+    <path d="M386 514 L 414 514"/>
+  </g>
+  <path d="M372 600 C 392 614, 414 614, 432 600" fill="none" stroke="#7E5E48" stroke-width="6" stroke-linecap="round"/>
+  <!-- leaf sprig -->
+  <path d="M600 1000 C 600 900, 620 840, 660 790" fill="none" stroke="#355B48" stroke-width="8" stroke-linecap="round"/>
+  <path d="M660 790 C 640 730, 680 690, 730 690 C 730 740, 700 780, 660 790 Z" fill="#355B48"/>
+  <path d="M628 860 C 580 840, 560 800, 576 762 C 616 776, 634 820, 628 860 Z" fill="#789780"/>
+</svg>
